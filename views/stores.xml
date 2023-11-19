@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="besial_store_form_view" model="ir.ui.view">
+        <field name="name">besial.store.form</field>
+        <field name="model">besial.store</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="ref" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div class="o_store_avatar">
+                        <field name="image_1920" widget="image" class="oe_avatar m-0"
+                               options="{&quot;zoom&quot;: true, &quot;preview_image&quot;:&quot;avatar_128&quot;}"/>
+                    </div>
+
+
+                    <h1>
+                        <field name="name" placeholder="New Shopify Store name"/>
+                    </h1>
+                    <group>
+                        <field name="store_url"/>
+                        <field name="store_type"/>
+                        <field name="status"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids" options="{'post_refresh' : 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="besial_store_tree_view" model="ir.ui.view">
+        <field name="name">besial.store.tree</field>
+        <field name="model">besial.store</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="store_type"/>
+                <field name="status"/>
+            </tree>
+
+        </field>
+    </record>
+    User
+    <record id="besial_store_kanban_view" model="ir.ui.view">
+        <field name="name">besial.store.kanban</field>
+        <field name="model">besial.store</field>
+        <field name="arch" type="xml">
+            <kanban class="o_besial_store_kanban">
+                <field name="ref"/>
+                <field name="name"/>
+
+                <field name="store_type"/>
+                <field name="status"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                            <field name="image_512" class="o_kanban_image_fill_left d-block" preview_image="image_128"
+                                   widget="background_image" options="{'zoom': true, 'zoom_delay': 1000}"/>
+                            <div t-attf-class="oe_kanban_global_click">
+
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+
+
+                                    <div t-if="record.store_type.value">
+                                        <t t-esc="record.store_type.value"/>
+                                    </div>
+                                    <div t-if="record.status.value">
+                                        <t t-esc="record.status.value"/>
+                                    </div>
+                                              <div t-if="record.status.raw_value === 'active'">
+                                        <span class="fa fa-circle text-success o_green_dot" role="img"
+                                              aria-label="Active" title="Active" name="status_active"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="action_besial_stores" model="ir.actions.act_window">
+        <field name="name">shopify_stores</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">besial.store</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+    <menuitem id="menu_shopify_stores"
+              name="Shopify stores"
+              parent="menu_besial_stores"
+              sequence="10"
+              action="action_besial_stores"/>
+
+</odoo>

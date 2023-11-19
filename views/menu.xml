@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem id="menu_besial_root"
+              name="Erp Besial"
+              sequence="10"/>
+
+    <menuitem id="menu_besial_stores"
+              name="Stores"
+              parent="menu_besial_root"
+              sequence="10"/>
+    <menuitem id="menu_besial_employee_operations"
+              name="Employees"
+              parent="menu_besial_root"
+              sequence="10"/>
+    <menuitem id="menu_besial_shopify_instances"
+              name="Shopify instances"
+              parent="menu_besial_stores"
+              action="action_besial_instance"
+              sequence="10"/>
+</odoo>

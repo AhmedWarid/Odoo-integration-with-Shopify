@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!--create a wizard view for shopify operations -->
+        <record model="ir.ui.view" id="shopify_operation_view">
+            <field name="name">shopify.operation.wizard</field>
+            <field name="model">shopify.operation</field>
+            <field name="arch" type="xml">
+                <form string="Shopify Operation">
+                    <sheet>
+                        <group name='shopify_instance'>
+                            <group>
+                                <field name="shopify_instance_id"
+                                       options="{'no_create':True,'no_create_edit': True,'no_open': True}"
+                                       required="1"/>
+                            </group>
+                            <group>
+                                <field name="import_export_selection"/>
+                                <field name="shopify_operation"
+                                       attrs="{'invisible':[('import_export_selection','!=','import')],'required': [('import_export_selection', '=', 'import')]}"/>
+                                <field name="export_shopify_operation"
+                                       attrs="{'invisible':[('import_export_selection','!=','export')],'required': [('import_export_selection', '=', 'export')]}"/>
+                            </group>
+                        </group>
+                        <notebook attrs="{'invisible':[('import_export_selection','!=','import')]}">
+                            <page name="details" string="Configuration">
+                                <group name='customer_details'
+                                       attrs="{'invisible':[('shopify_operation','!=','import_shopify_customers')]}">
+                                    <group>
+                                        <field name="skip_existing_customer"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                                <group name='product_details'
+                                       attrs="{'invisible':[('shopify_operation','!=','import_shopify_products')]}">
+                                    <group>
+                                        <field name="skip_existing_product"/>
+                                        <field name="date_filter"/>
+                                    </group>
+                                    <group>
+                                        <field name="orders_from_date"
+                                               attrs="{'invisible': [('date_filter', '=', False)],'required': [('date_filter', '=', True)]}"/>
+                                        <field name="orders_to_date"
+                                               attrs="{'invisible': [('date_filter', '=', False)],'required': [('date_filter', '=', True)]}"/>
+                                    </group>
+                                </group>
+                                <group name='order_details'
+                                       attrs="{'invisible':[('shopify_operation','not in',['import_shopify_orders','import_draft_orders'])]}">
+                                    <group>
+                                        <field name="skip_existing_order"/>
+                                        <field name="date_filter"/>
+                                    </group>
+                                    <group>
+                                        <field name="orders_from_date"
+                                               attrs="{'invisible': [('date_filter', '=', False)],'required': [('date_filter', '=', True)]}"/>
+                                        <field name="orders_to_date"
+                                               attrs="{'invisible': [('date_filter', '=', False)],'required': [('date_filter', '=', True)]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                        <footer>
+                            <button name="perform_shopify_operation" string="Execute" type="object"
+                                    class="oe_highlight"
+                                    attrs="{'invisible':[('import_export_selection','!=','import')]}"/>
+                            <button name="perform_export_shopify_operation" string="Execute" type="object"
+                                    class="oe_highlight"
+                                    attrs="{'invisible':[('import_export_selection','!=','export')]}"/>
+                            <button string="Cancel" class="oe_highlight" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_shopify_operation">
+            <field name="name">Shopify Operation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">shopify.operation</field>
+            <field name="view_id" ref="shopify_operation_view"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+    <menuitem id="menu_besial_shopify_operate"
+              name="Shopify"
+              parent="menu_besial_root"
+              action="action_shopify_operation"
+              sequence="10"/>
+
+</odoo>

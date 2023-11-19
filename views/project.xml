@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="besial_projects_kanban_view" model="ir.ui.view">
+        <field name="name">project.task.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+
+            <field name="user_ids" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+
+            <field name="kanban_state" position="after">
+                <field name="employees_assigned" widget="many2many_avatar_user"/>
+            </field>
+
+
+        </field>
+    </record>
+
+    <record id="besial_projects_form_view" model="ir.ui.view">
+        <field name="name">project.task.inherit.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+
+            <field name="user_ids" position="after">
+                <field name="employees_assigned" class="o_task_user_field"
+                       options="{'no_open': True, 'no_quick_create': True}" widget="many2many_avatar_user" on_change="1"
+                       can_create="true" can_write="true"/>
+            </field>
+
+        </field>
+    </record>
+
+
+    <record id="action_besial_projects" model="ir.actions.act_window">
+        <field name="name">besial_projects</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity</field>
+    </record>
+
+
+    <menuitem id="menu_besial_projects"
+              name="Projects"
+              parent="menu_besial_root"
+              sequence="10"
+              action="action_besial_projects"/>
+</odoo>

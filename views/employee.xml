@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="besial_employees_form_view" model="ir.ui.view">
+        <field name="name">hr.employee.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <field name="coach_id" position="after">
+                <field name="store_ids" widget="many2many_tags"
+                       options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Stores"
+                       groups="hr.group_hr_user" readonly="False"/>
+            </field>
+
+        </field>
+    </record>
+
+        <record id="besial_employees_kanban_view" model="ir.ui.view">
+        <field name="name">hr.employee.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="arch" type="xml">
+
+            <field name="job_title" position="after">
+                <field name="store_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+            </field>
+
+        </field>
+    </record>
+
+
+
+
+
+    <record id="action_besial_employees" model="ir.actions.act_window">
+        <field name="name">besial_employees</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+
+    <menuitem id="menu_besial_employees"
+              name="Employees"
+              parent="menu_besial_employee_operations"
+              sequence="10"
+              action="action_besial_employees"
+    />
+
+
+</odoo>
